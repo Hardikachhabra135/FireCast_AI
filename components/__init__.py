@@ -25,126 +25,15 @@ def html(raw_str: str) -> str:
     return textwrap.dedent(raw_str).strip()
 
 
-def render_sky_switch_markup(theme_mode: str) -> str:
-    """
-    Renders the standalone signature 'Sky Switch' toggle:
-    - 68x34px compact horizontal pill (44px touch target).
-    - Track: Miniature sky scene (night gradient + stars in dark mode; dawn gradient + cloud in light mode).
-    - Thumb: 26px circle sliding with spring physics (cubic-bezier(.34, 1.56, .64, 1) in 400ms).
-    - Icon: Morphing crescent moon / radiant sun.
-    - View Transition API circular clip-path wash.
-    - Accessible: role='switch', aria-checked, keyboard navigable (Space/Enter).
-    """
-    is_dark = (theme_mode == "dark")
-    next_mode = "light" if is_dark else "dark"
-    aria_checked = "true" if is_dark else "false"
-    tooltip_text = "Switch to light mode" if is_dark else "Switch to dark mode"
-    
-    # Track gradient & celestial elements
-    if is_dark:
-        track_bg = "linear-gradient(135deg, #0B140F 0%, #15241B 100%)"
-        track_border = "rgba(255, 255, 255, 0.15)"
-        thumb_x = "36px"
-        thumb_bg = "#F5E6C8"
-        thumb_icon = '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" fill="#171F1A" stroke="#171F1A" stroke-width="1.2"/>'
-        sky_decor = """
-        <circle cx="12" cy="11" r="1.2" fill="#FFFFFF" opacity="0.85" />
-        <circle cx="22" cy="22" r="1.0" fill="#FFFFFF" opacity="0.75" />
-        <circle cx="18" cy="8" r="0.8" fill="#FFFFFF" opacity="0.65" />
-        <circle cx="28" cy="14" r="1.1" fill="#FFFFFF" opacity="0.8" />
-        """
-    else:
-        track_bg = "linear-gradient(135deg, #FFE8D6 0%, #FFF5EB 100%)"
-        track_border = "rgba(16, 23, 19, 0.15)"
-        thumb_x = "4px"
-        thumb_bg = "#E8501A"
-        thumb_icon = '<circle cx="12" cy="12" r="4" fill="#FFFFFF"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>'
-        sky_decor = """
-        <path d="M42 22a5 5 0 0 1 9.8-1.5A3.5 3.5 0 0 1 55 24a3.5 3.5 0 0 1-3.5 3.5h-10A4.5 4.5 0 0 1 42 22z" fill="#FFFFFF" opacity="0.9" />
-        """
-
-    switch_html = f"""
-    <div style="display:inline-flex;align-items:center;">
-      <div id="sky-switch-root"
-           role="switch"
-           tabindex="0"
-           aria-checked="{aria_checked}"
-           aria-label="Theme Toggle (currently {theme_mode} mode)"
-           title="{tooltip_text}"
-           onclick="triggerSkySwitch(event)"
-           onkeydown="if(event.key===' '||event.key==='Enter'){{event.preventDefault();triggerSkySwitch(event);}}"
-           style="position:relative;width:68px;height:34px;border-radius:999px;background:{track_bg};border:1.5px solid {track_border};cursor:pointer;padding:2px;box-shadow:inset 0 1px 4px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.1);outline:none;user-select:none;transition:border-color 0.25s ease;"
-           class="fc-sky-switch">
-        
-        <!-- Sky Scene Elements -->
-        <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;" viewBox="0 0 68 34">
-          {sky_decor}
-        </svg>
-
-        <!-- Sliding Celestial Thumb -->
-        <div style="position:absolute;top:3px;left:0;transform:translateX({thumb_x});width:26px;height:26px;border-radius:50%;background:{thumb_bg};box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;transition:transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1), background 300ms ease;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-            {thumb_icon}
-          </svg>
-        </div>
-      </div>
-    </div>
-
-    <script>
-    function triggerSkySwitch(event) {{
-        const targetBtn = document.querySelector('button[key="sky_switch_real_btn"], button[data-testid="baseButton-secondary"]:has(p:contains("SkySwitchTrigger"))') || 
-                          Array.from(document.querySelectorAll('button')).find(b => b.innerText.includes('SkySwitchTrigger'));
-        
-        const executeTransition = () => {{
-            if (targetBtn) {{
-                targetBtn.click();
-            }}
-        }};
-
-        if (!document.startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {{
-            executeTransition();
-            return;
-        }}
-
-        const x = event ? event.clientX : window.innerWidth - 60;
-        const y = event ? event.clientY : 40;
-        const endRadius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
-
-        const transition = document.startViewTransition(() => {{
-            executeTransition();
-        }});
-
-        transition.ready.then(() => {{
-            const clipPath = [
-                `circle(0px at ${{x}}px ${{y}}px)`,
-                `circle(${{endRadius}}px at ${{x}}px ${{y}}px)`
-            ];
-            document.documentElement.animate(
-                {{ clipPath: clipPath }},
-                {{
-                    duration: 550,
-                    easing: 'ease-in-out',
-                    pseudoElement: '::view-transition-new(root)'
-                }}
-            );
-        }}).catch(() => {{
-            executeTransition();
-        }});
-    }}
-    </script>
-    """
-    return html(switch_html)
-
-
 def render_top_navigation():
     """
     Renders the unified top bar:
-    - Left: Brand mark with custom SVG logo and tagline.
-    - Center/Right: Apple-style segmented control module tabs.
-    - Far Right: Vertical hairline divider + signature 'Sky Switch' toggle.
+    - Col 0: Brand mark with custom SVG logo and tagline.
+    - Cols 1-6: 6 Apple-style segmented control module tabs in a single un-nested row.
+    - Col 7: Dedicated theme toggle button (Dark Mode / Light Mode) that is 100% visible and functional.
     """
     theme_mode = st.session_state.get("theme_mode", "dark")
-    t = get_current_theme_tokens(theme_mode)
+    is_dark = (theme_mode == "dark")
     current_page = st.session_state.get("page", "Overview")
 
     nav_items = [
@@ -156,17 +45,16 @@ def render_top_navigation():
         {"id": "History", "label": "History"}
     ]
 
-    # Container for Top Bar (2 cols: Left Brand & Navigation | Right Sky Switch)
-    c_left, c_toggle = st.columns([6.8, 1.2], gap="small")
+    # Root top-level row: Brand (1.8) + 6 Nav buttons + Theme Toggle (1.1)
+    cols = st.columns([1.8, 0.85, 0.85, 0.9, 0.95, 0.85, 0.85, 1.1], gap="small")
 
-    with c_left:
-        sub_cols = st.columns([2.0, 4.8], gap="small")
-        with sub_cols[0]:
-            logo_svg = get_logo_svg(36, theme_mode)
-            brand_markup = f"""<div style="display:flex;align-items:center;gap:0.75rem;padding:0.2rem 0;">
+    # Col 0: Brand
+    with cols[0]:
+        logo_svg = get_logo_svg(36, theme_mode)
+        brand_markup = f"""<div style="display:flex;align-items:center;gap:0.75rem;padding:0.2rem 0;">
 {logo_svg}
 <div>
-<div style="font-family:var(--fc-font-sans);font-size:1.1rem;font-weight:700;color:var(--fc-text);line-height:1.15;letter-spacing:-0.02em;">
+<div style="font-family:var(--fc-font-sans);font-size:1.15rem;font-weight:700;color:var(--fc-text);line-height:1.15;letter-spacing:-0.02em;">
 FireCast AI
 </div>
 <div style="font-size:0.72rem;color:var(--fc-text-2);font-weight:500;">
@@ -174,28 +62,35 @@ Predict • Understand • Protect
 </div>
 </div>
 </div>"""
-            st.markdown(html(brand_markup), unsafe_allow_html=True)
+        st.markdown(html(brand_markup), unsafe_allow_html=True)
 
-        with sub_cols[1]:
-            nav_cols = st.columns(len(nav_items), gap="small")
-            for i, item in enumerate(nav_items):
-                is_active = (current_page == item["id"] or item["id"] in current_page)
-                with nav_cols[i]:
-                    btn_type = "primary" if is_active else "secondary"
-                    if st.button(
-                        item["label"],
-                        key=f"topnav_btn_{item['id']}",
-                        use_container_width=True,
-                        type=btn_type
-                    ):
-                        st.session_state["page"] = item["id"]
-                        st.rerun()
+    # Cols 1-6: 6 Navigation Buttons in exact sequence
+    for i, item in enumerate(nav_items):
+        is_active = (current_page == item["id"] or item["id"] in current_page)
+        with cols[i + 1]:
+            btn_type = "primary" if is_active else "secondary"
+            if st.button(
+                item["label"],
+                key=f"topnav_btn_{item['id']}",
+                use_container_width=True,
+                type=btn_type
+            ):
+                st.session_state["page"] = item["id"]
+                st.rerun()
 
-    with c_toggle:
-        st.markdown(render_sky_switch_markup(theme_mode), unsafe_allow_html=True)
-        # Hidden Streamlit trigger button for the Sky Switch
-        if st.button("SkySwitchTrigger", key="sky_switch_real_btn"):
-            next_m = "light" if theme_mode == "dark" else "dark"
+    # Col 7: Dedicated Theme Toggle Pill Button
+    with cols[7]:
+        toggle_label = "Light Mode" if is_dark else "Dark Mode"
+        toggle_icon = ":material/light_mode:" if is_dark else ":material/dark_mode:"
+        toggle_help = "Switch to light theme" if is_dark else "Switch to dark theme"
+        
+        if st.button(
+            toggle_label,
+            key="theme_toggle_btn",
+            icon=toggle_icon,
+            use_container_width=True
+        ):
+            next_m = "light" if is_dark else "dark"
             st.session_state["theme_mode"] = next_m
             st.query_params["theme"] = next_m
             st.rerun()
