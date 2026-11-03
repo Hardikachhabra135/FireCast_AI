@@ -1,0 +1,57 @@
+{
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "containerWidth": 1300,
+  "leftGutter": 310,
+  "rightGutter": 310,
+  "cardMetrics": [
+    {
+      "index": 1,
+      "width": 298.75,
+      "height": 131.59375,
+      "top": 266.921875,
+      "text": "HISTORICAL FIRE RECORDS DEDUPLICATED 513"
+    },
+    {
+      "index": 2,
+      "width": 298.75,
+      "height": 116.21875,
+      "top": 266.921875,
+      "text": "TOTAL BURNED AREA EMPIRICAL 6,613.4 ha C"
+    },
+    {
+      "index": 3,
+      "width": 298.75,
+      "height": 115.59375,
+      "top": 266.921875,
+      "text": "AVERAGE BURNED AREA 12.89 ha Median: 0.5"
+    },
+    {
+      "index": 4,
+      "width": 298.75,
+      "height": 148.125,
+      "top": 266.921875,
+      "text": "AI MODEL CHAMPION Gradient Boosting Test"
+    }
+  ],
+  "chartMetrics": [
+    {
+      "index": 1,
+      "width": 685.859375,
+      "height": 280,
+      "top": 532.53125
+    },
+    {
+      "index": 2,
+      "width": 524.140625,
+      "height": 260,
+      "top": 532.53125
+    },
+    {
+      "index": 3,
+      "width": 1240,
+      "height": 280,
+      "top": 842.53125
+    }
+  ]
+}

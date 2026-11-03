@@ -1,0 +1,242 @@
+# ==============================================================================
+# FIRECAST AI — CENTRAL CONFIGURATION MANAGEMENT
+# Professional AI-Powered Wildfire Intelligence & Burned Area Prediction Platform
+# ==============================================================================
+
+app:
+  name: "FireCast AI"
+  tagline: "Predict. Understand. Protect."
+  subtitle: "AI-Powered Wildfire Burned Area Prediction & Intelligence Platform"
+  version: "2.1.0-RESEARCH"
+  team: "We Do It"
+  authors:
+    - "Hardika Chhabra"
+    - "Ankur"
+    - "Ritikarsh Kumar"
+    - "Swarup Dutta"
+  dataset_source: "UCI Machine Learning Repository (Cortez & Morais, 2007)"
+  geographical_context: "Montesinho Natural Park, Trás-os-Montes, Portugal"
+
+dataset:
+  raw_path: "dataset/forestfires.csv"
+  processed_dir: "dataset/processed"
+  target_col: "area"
+  spatial_features: ["X", "Y"]
+  temporal_features: ["month", "day"]
+  weather_features: ["temp", "RH", "wind", "rain"]
+  fwi_features: ["FFMC", "DMC", "DC", "ISI"]
+  model_features: ["X", "Y", "month", "day", "FFMC", "DMC", "DC", "ISI", "temp", "RH", "wind", "rain"]
+  weather_only_features: ["month", "day", "temp", "RH", "wind", "rain"]
+
+training:
+  random_state: 42
+  test_size: 0.20
+  stratify_bins: 5
+  cv_folds: 5
+  cv_repeats: 3
+  target_transformation: "log1p"
+
+severity_bands:
+  low:
+    name: "Low Severity"
+    min_ha: 0.0
+    max_ha: 2.5
+    percentile_ref: "< 50th percentile of non-zero fires"
+    color: "#45C99A"
+    bg_color: "rgba(69, 201, 154, 0.12)"
+    border_color: "#45C99A"
+    summary: "Localized surface burn with limited horizontal spread potential under current conditions."
+  moderate:
+    name: "Moderate Severity"
+    min_ha: 2.5
+    max_ha: 10.0
+    percentile_ref: "50th – 75th percentile of non-zero fires"
+    color: "#FFAD5C"
+    bg_color: "rgba(255, 173, 92, 0.12)"
+    border_color: "#FFAD5C"
+    summary: "Medium flame length; capable of moderate flank expansion in dry forest fuel beds."
+  high:
+    name: "High Severity"
+    min_ha: 10.0
+    max_ha: 35.0
+    percentile_ref: "75th – 90th percentile of non-zero fires"
+    color: "#FF7138"
+    bg_color: "rgba(255, 113, 56, 0.15)"
+    border_color: "#FF7138"
+    summary: "Substantial perimeter expansion; high resistance to direct perimeter containment."
+  extreme:
+    name: "Extreme Severity"
+    min_ha: 35.0
+    max_ha: 2000.0
+    percentile_ref: "≥ 90th percentile of non-zero fires"
+    color: "#FF4757"
+    bg_color: "rgba(255, 71, 87, 0.18)"
+    border_color: "#FF4757"
+    summary: "Crown fire potential, rapid ember spotting, and multi-sector flank advancement."
+
+input_ranges:
+  X:
+    min: 1
+    max: 9
+    training_min: 1
+    training_max: 9
+    default: 7
+    unit: "coord"
+    label: "Spatial X Coordinate"
+    description: "Montesinho Natural Park horizontal grid coordinate (1 to 9)."
+  Y:
+    min: 2
+    max: 9
+    training_min: 2
+    training_max: 9
+    default: 4
+    unit: "coord"
+    label: "Spatial Y Coordinate"
+    description: "Montesinho Natural Park vertical grid coordinate (2 to 9)."
+  temp:
+    min: 0.0
+    max: 45.0
+    training_min: 2.2
+    training_max: 33.3
+    default: 21.0
+    unit: "°C"
+    label: "Outside Temperature"
+    description: "Ambient dry-bulb air temperature measured in the shade."
+  RH:
+    min: 0.0
+    max: 100.0
+    training_min: 15.0
+    training_max: 100.0
+    default: 38.0
+    unit: "%"
+    label: "Relative Humidity"
+    description: "Percentage ratio of vapor pressure to saturation vapor pressure."
+  wind:
+    min: 0.0
+    max: 30.0
+    training_min: 0.4
+    training_max: 9.4
+    default: 4.5
+    unit: "km/h"
+    label: "Wind Velocity"
+    description: "Average horizontal wind speed measured at 10m height."
+  rain:
+    min: 0.0
+    max: 50.0
+    training_min: 0.0
+    training_max: 6.4
+    default: 0.0
+    unit: "mm"
+    label: "Outside Rainfall"
+    description: "Rainfall accumulation in mm within the antecedent measurement window."
+  FFMC:
+    min: 15.0
+    max: 100.0
+    training_min: 18.7
+    training_max: 96.2
+    default: 91.5
+    unit: "Index"
+    label: "Fine Fuel Moisture Code (FFMC)"
+    description: "Moisture content of surface litter & cured fine fuels; indicator of ease of ignition."
+  DMC:
+    min: 0.0
+    max: 350.0
+    training_min: 1.1
+    training_max: 291.3
+    default: 110.0
+    unit: "Index"
+    label: "Duff Moisture Code (DMC)"
+    description: "Moisture of loosely compacted organic duff layer (5-10 cm depth)."
+  DC:
+    min: 0.0
+    max: 950.0
+    training_min: 7.9
+    training_max: 860.6
+    default: 650.0
+    unit: "Index"
+    label: "Drought Code (DC)"
+    description: "Deep organic layer drought indicator representing seasonal drying trends."
+  ISI:
+    min: 0.0
+    max: 70.0
+    training_min: 0.0
+    training_max: 56.1
+    default: 8.5
+    unit: "Index"
+    label: "Initial Spread Index (ISI)"
+    description: "Rate of fire spread velocity combining FFMC and wind speed without fuel load."
+
+presets:
+  summer_heatwave:
+    name: "Summer Heatwave (High Risk)"
+    X: 7
+    Y: 5
+    month: "aug"
+    day: "sun"
+    temp: 31.0
+    RH: 25.0
+    wind: 6.2
+    rain: 0.0
+    FFMC: 94.8
+    DMC: 185.0
+    DC: 720.0
+    ISI: 14.5
+    description: "Extreme late-summer Portuguese interior heatwave with severe soil drought."
+  autumn_drought:
+    name: "Early Autumn Dry Spell"
+    X: 6
+    Y: 4
+    month: "sep"
+    day: "sat"
+    temp: 24.5
+    RH: 35.0
+    wind: 4.5
+    rain: 0.0
+    FFMC: 91.2
+    DMC: 130.0
+    DC: 680.0
+    ISI: 8.0
+    description: "Persistent late-season dry forest condition typical of September outbreaks."
+  spring_breeze:
+    name: "Spring Moderate Breeze"
+    X: 4
+    Y: 4
+    month: "may"
+    day: "wed"
+    temp: 17.5
+    RH: 58.0
+    wind: 4.8
+    rain: 0.0
+    FFMC: 85.0
+    DMC: 42.0
+    DC: 180.0
+    ISI: 5.2
+    description: "Mild spring day with moderate humidity and green vegetative moisture."
+  winter_damp:
+    name: "Winter Damp & Rain"
+    X: 3
+    Y: 4
+    month: "dec"
+    day: "mon"
+    temp: 6.5
+    RH: 88.0
+    wind: 3.1
+    rain: 2.4
+    FFMC: 45.0
+    DMC: 8.0
+    DC: 30.0
+    ISI: 0.8
+    description: "Cold winter rainfall condition with saturated fuel beds."
+
+database:
+  db_path: "dataset/processed/firecast_history.db"
+
+paths:
+  models_dir: "models"
+  best_model: "models/best_model.joblib"
+  pipeline: "models/preprocessing_pipeline.joblib"
+  all_models: "models/all_models.joblib"
+  metadata: "models/model_metadata.json"
+  evaluation: "models/evaluation_metrics.json"
+  explainer: "models/shap_explainer.joblib"
+  reports_dir: "reports/prediction_reports"

@@ -1,0 +1,34 @@
+{
+  "layout_1920": {
+    "containerWidth": 1760,
+    "containerMaxWidth": "1760px",
+    "leftGutter": 80,
+    "rightGutter": 80,
+    "cardHeights": [
+      363.671875
+    ],
+    "chartInfo": [
+      {
+        "height": 340,
+        "top": 617.21875,
+        "width": 1065.328125
+      },
+      {
+        "height": 340,
+        "top": 617.21875,
+        "width": 510.671875
+      },
+      {
+        "height": 340,
+        "top": 1078.1875,
+        "width": 1065.328125
+      }
+    ]
+  },
+  "light_styles": {
+    "bodyBg": "rgb(244, 242, 236)",
+    "cardBg": "rgb(255, 255, 255)",
+    "cardColor": "rgb(20, 32, 26)",
+    "rootScheme": "light"
+  }
+}

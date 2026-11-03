@@ -1,0 +1,170 @@
+{
+  "Mean Baseline": {
+    "test_metrics": {
+      "MAE": 11.224,
+      "MedAE": 2.034,
+      "MSE": 1018.956,
+      "RMSE": 31.921,
+      "R2": -0.0867,
+      "latency_ms": 21.4,
+      "log_MAE": 1.1957,
+      "log_RMSE": 1.4225
+    },
+    "cv_metrics": {
+      "cv_MAE_mean": 13.475,
+      "cv_MAE_std": 7.321,
+      "cv_MedAE_mean": 2.036,
+      "cv_MedAE_std": 0.104,
+      "cv_RMSE_mean": 55.144,
+      "cv_R2_mean": -0.067
+    },
+    "fit_time_ms": 55.74
+  },
+  "Median Baseline": {
+    "test_metrics": {
+      "MAE": 11.052,
+      "MedAE": 0.58,
+      "MSE": 1047.305,
+      "RMSE": 32.362,
+      "R2": -0.117,
+      "latency_ms": 15.72,
+      "log_MAE": 1.124,
+      "log_RMSE": 1.5716
+    },
+    "cv_metrics": {
+      "cv_MAE_mean": 13.343,
+      "cv_MAE_std": 7.353,
+      "cv_MedAE_mean": 0.815,
+      "cv_MedAE_std": 0.209,
+      "cv_RMSE_mean": 55.524,
+      "cv_R2_mean": -0.1051
+    },
+    "fit_time_ms": 31.23
+  },
+  "Linear Regression": {
+    "test_metrics": {
+      "MAE": 11.135,
+      "MedAE": 2.23,
+      "MSE": 1010.393,
+      "RMSE": 31.787,
+      "R2": -0.0776,
+      "latency_ms": 13.36,
+      "log_MAE": 1.1558,
+      "log_RMSE": 1.4091
+    },
+    "cv_metrics": {
+      "cv_MAE_mean": 13.559,
+      "cv_MAE_std": 7.355,
+      "cv_MedAE_mean": 2.377,
+      "cv_MedAE_std": 0.196,
+      "cv_RMSE_mean": 55.151,
+      "cv_R2_mean": -0.0851
+    },
+    "fit_time_ms": 30.62
+  },
+  "Ridge Regression": {
+    "test_metrics": {
+      "MAE": 11.13,
+      "MedAE": 2.036,
+      "MSE": 1013.386,
+      "RMSE": 31.834,
+      "R2": -0.0808,
+      "latency_ms": 15.86,
+      "log_MAE": 1.1594,
+      "log_RMSE": 1.4022
+    },
+    "cv_metrics": {
+      "cv_MAE_mean": 13.497,
+      "cv_MAE_std": 7.336,
+      "cv_MedAE_mean": 2.278,
+      "cv_MedAE_std": 0.173,
+      "cv_RMSE_mean": 55.094,
+      "cv_R2_mean": -0.065
+    },
+    "fit_time_ms": 30.25
+  },
+  "Support Vector Regressor (SVR)": {
+    "test_metrics": {
+      "MAE": 11.151,
+      "MedAE": 1.381,
+      "MSE": 1032.812,
+      "RMSE": 32.137,
+      "R2": -0.1015,
+      "latency_ms": 17.35,
+      "log_MAE": 1.1458,
+      "log_RMSE": 1.5059
+    },
+    "cv_metrics": {
+      "cv_MAE_mean": 13.325,
+      "cv_MAE_std": 7.34,
+      "cv_MedAE_mean": 1.687,
+      "cv_MedAE_std": 0.208,
+      "cv_RMSE_mean": 55.381,
+      "cv_R2_mean": -0.0889
+    },
+    "fit_time_ms": 63.98
+  },
+  "Random Forest Regressor": {
+    "test_metrics": {
+      "MAE": 11.142,
+      "MedAE": 2.062,
+      "MSE": 1016.531,
+      "RMSE": 31.883,
+      "R2": -0.0841,
+      "latency_ms": 17.17,
+      "log_MAE": 1.158,
+      "log_RMSE": 1.4134
+    },
+    "cv_metrics": {
+      "cv_MAE_mean": 13.526,
+      "cv_MAE_std": 7.34,
+      "cv_MedAE_mean": 2.221,
+      "cv_MedAE_std": 0.254,
+      "cv_RMSE_mean": 55.126,
+      "cv_R2_mean": -0.0664
+    },
+    "fit_time_ms": 254.68
+  },
+  "Gradient Boosting Regressor": {
+    "test_metrics": {
+      "MAE": 11.113,
+      "MedAE": 2.1,
+      "MSE": 1016.25,
+      "RMSE": 31.879,
+      "R2": -0.0838,
+      "latency_ms": 2.57,
+      "log_MAE": 1.1459,
+      "log_RMSE": 1.4144
+    },
+    "cv_metrics": {
+      "cv_MAE_mean": 13.682,
+      "cv_MAE_std": 7.412,
+      "cv_MedAE_mean": 2.258,
+      "cv_MedAE_std": 0.276,
+      "cv_RMSE_mean": 55.157,
+      "cv_R2_mean": -0.0711
+    },
+    "fit_time_ms": 80.95
+  },
+  "XGBoost Regressor": {
+    "test_metrics": {
+      "MAE": 11.18,
+      "MedAE": 2.045,
+      "MSE": 1016.951,
+      "RMSE": 31.89,
+      "R2": -0.0846,
+      "latency_ms": 5.44,
+      "log_MAE": 1.1647,
+      "log_RMSE": 1.4269
+    },
+    "cv_metrics": {
+      "cv_MAE_mean": 13.593,
+      "cv_MAE_std": 7.341,
+      "cv_MedAE_mean": 2.262,
+      "cv_MedAE_std": 0.306,
+      "cv_RMSE_mean": 55.165,
+      "cv_R2_mean": -0.0727
+    },
+    "fit_time_ms": 54.22
+  }
+}

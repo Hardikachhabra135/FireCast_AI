@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="fireGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF4757" />
+      <stop offset="45%" stop-color="#FF6B35" />
+      <stop offset="100%" stop-color="#FF9F43" />
+    </linearGradient>
+    <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B7CFF" />
+      <stop offset="100%" stop-color="#48DBFB" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- Outer Shield Hexagon -->
+  <polygon points="100,15 175,55 175,145 100,185 25,145 25,55" 
+           fill="#0D121A" stroke="#24303D" stroke-width="3" />
+           
+  <polygon points="100,25 165,60 165,140 100,175 35,140 35,60" 
+           fill="#111923" stroke="#1F2C3B" stroke-width="1.5" />
+
+  <!-- Neural Connection Lines -->
+  <line x1="100" y1="45" x2="60" y2="120" stroke="url(#aiGrad)" stroke-width="1.5" opacity="0.6" />
+  <line x1="100" y1="45" x2="140" y2="120" stroke="url(#aiGrad)" stroke-width="1.5" opacity="0.6" />
+  <line x1="60" y1="120" x2="140" y2="120" stroke="url(#aiGrad)" stroke-width="1.5" opacity="0.6" />
+  
+  <!-- Central Flame Geometry -->
+  <path d="M100,45 C115,75 145,100 135,130 C128,150 112,160 100,160 C88,160 72,150 65,130 C55,100 85,75 100,45 Z" 
+        fill="url(#fireGrad)" filter="url(#glow)" />
+        
+  <!-- Inner Flame Core -->
+  <path d="M100,85 C108,102 120,118 115,135 C110,146 102,152 100,152 C98,152 90,146 85,135 C80,118 92,102 100,85 Z" 
+        fill="#FFF275" opacity="0.9" />
+
+  <!-- Intelligence Nodes -->
+  <circle cx="100" cy="45" r="4" fill="#8B7CFF" />
+  <circle cx="60" cy="120" r="4" fill="#8B7CFF" />
+  <circle cx="140" cy="120" r="4" fill="#8B7CFF" />
+  <circle cx="100" cy="160" r="3" fill="#FF6B35" />
+</svg>
